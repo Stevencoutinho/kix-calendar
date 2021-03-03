@@ -1,6 +1,5 @@
-# ts-react-boilerplate
-以前作成したreactのボイラプレートにtypescriptを導入しました。<br>
-今後も随時ブラッシュアップしていきます。
+# stockx-calender
+stockXが公開しているWebAPIを利用して、俺得スニーカー販売スケジュールアプリケーション
 ## Scripts
 ### Install
 ```
