@@ -5,7 +5,11 @@ import { GlobalState } from '@/types';
 /* reducer */
 import { reducer } from '@/src/Reducer';
 
-const initialState: GlobalState = {name: ""};
+const initialState: GlobalState = {
+  active: "",
+  newKix: [],
+  todayKix: []
+};
 
 export const Store = React.createContext<GlobalState | any>(initialState);
 

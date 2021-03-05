@@ -1,36 +1,17 @@
 @charset "UTF-8";
 
-header {
-  color: white;
-  background-color: rgb(70, 70, 255);
-  padding: 10px;
-  // margin-bottom: 10px;
+html, body {
+  font-size: 62.5%;
 }
-
-nav {
-  width: 100%;
-  border-bottom: solid black 1px;
-  margin-bottom: 20px;
-  ul {
-    width: 100%;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    li {
-      flex: 25%;
-      max-width: 25%;
-      text-align: center;
-      border: solid black 1px;
-      transition: .5s;
-      padding: 5px;
-      margin: 20px;
-      &:hover {
-        background-color: rgb(204, 204, 204);
-      }
-    }
-  }
+html {
+  max-width: 414px;
+  font-family: 'Poppins', sans-serif;
+  margin: auto;
 }
-
-main {
-  padding: 0 10px;
+.none {
+  display: none;
+}
+.fix-head {
+  position: sticky;
+  top: 0;
 }
