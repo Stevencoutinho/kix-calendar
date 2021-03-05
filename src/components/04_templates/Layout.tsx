@@ -1,11 +1,12 @@
-/*========== import ==========*/
+/* import  */
 import React from "react";
 import styled from "styled-components";
-/* organisms */
 import Header from "@/src/components/03_organisms/Header";
-import Footer from "@/src/components/03_organisms/Footer";
-/* utils */
+import Nav from "@/src/components/03_organisms/Nav";
 import { HeaderHeight, FooterHeight } from "@/src/utils/theme";
+import { GlobalStoreProvider } from "@/types";
+import { Store } from "@/src/Store";
+
 // /* type */
 // interface Props {
 //   className?: string;
@@ -13,12 +14,20 @@ import { HeaderHeight, FooterHeight } from "@/src/utils/theme";
 
 /* DOM */
 const Layout: React.FC = ({children}): JSX.Element => {
-
+  // context API
+  const { state, dispatch }: GlobalStoreProvider = React.useContext(Store);
+  // hooks useEffect: dispatch(現在のページ情報をstore)
+  React.useEffect(() => {
+    const path = location.pathname.split("/");
+    dispatch({type: "ACTIVE", payload: path[1]})
+  }, []);
   return (
     <>
-    <Header />
+    <div className="fix-head">
+      <Header />
+      <Nav />
+    </div>
     <Main>{children}</Main>
-    <Footer />
     </>
   );
 };

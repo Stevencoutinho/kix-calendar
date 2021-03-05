@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
 import App from '@/src/App';
-// import '@/src/css/destyle.css';
-// import '@/src/css/style.scss';
+import '@/src/css/destyle.css';
+import '@/src/css/style.scss';
 import { StoreProvider } from './Store';
 
 const rootEl = document.getElementById('root');
