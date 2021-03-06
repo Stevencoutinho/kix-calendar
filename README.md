@@ -15,3 +15,7 @@ yarn start
 ```
 yarn run build
 ```
+
+## API
+swagger&nbsp;:&nbsp;&nbsp;https://app.swaggerhub.com/apis-docs/tg4solutions/the-sneaker-database/1.0.0
+API&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;https://api.thesneakerdatabase.com
