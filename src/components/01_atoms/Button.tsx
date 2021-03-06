@@ -7,11 +7,12 @@ interface Props {
   className?: string;
   size: keyof typeof Sizes.button;
   color: keyof typeof Themes;
+  onClick?: any;
 };
 /* DOM */
 const Component: React.FC<Props> = (props): JSX.Element => {
   const { className: cn } = props;
-  return <button className={cn}>{props.children}</button>;
+  return <button className={cn} onClick={props.onClick}>{props.children}</button>;
 };
 
 /* style */
