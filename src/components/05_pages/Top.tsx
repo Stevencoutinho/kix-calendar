@@ -7,6 +7,7 @@ import Layout from "@/src/components/04_templates/Layout";
 import { GlobalStoreProvider, Kix } from "@/types";
 import { Store } from "@/src/Store";
 import ajax from "@/src/utils/ajax";
+import useLocalStrage from "@/src/utils/useLocalStrage";
 /* type */
 interface Props {
   className?: string;
@@ -74,8 +75,11 @@ const StyledComponent = styled(Component)<Props>`
 const Top: React.FC = (): JSX.Element => {
   // Context API
   const { state, dispatch }: GlobalStoreProvider = React.useContext(Store);
+
   // hooks useEffect: API(GET)
   React.useEffect(() => {
+    // custom hooks uselocalStrage
+    useLocalStrage("favoriteKix");
     if(!state.newKix.length) {
       ajax({method: "GET", url: "/v1/sneakers?limit=10"})
       ?.then(res => dispatch({type: "NEWKIX", payload: res.data.results}))

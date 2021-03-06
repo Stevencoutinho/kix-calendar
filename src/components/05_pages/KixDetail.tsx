@@ -5,6 +5,7 @@ import Image from "@/src/components/01_atoms/Image";
 import Button from "@/src/components/01_atoms/Button";
 import Layout from "@/src/components/04_templates/Layout";
 import ajax from "@/src/utils/ajax";
+import useLocalStrage from "@/src/utils/useLocalStrage";
 import { GlobalStoreProvider, Kix } from "@/types";
 import { Store } from "@/src/Store";
 import { Link, RouteComponentProps } from "react-router-dom";
@@ -12,6 +13,8 @@ import { Link, RouteComponentProps } from "react-router-dom";
 interface Props {
   className?: string;
   kix?: Kix;
+  onFavorite: any;
+  flg: boolean;
 };
 /* DOM */
 const Component: React.FC<Props> = (props): JSX.Element => {
@@ -27,9 +30,10 @@ const Component: React.FC<Props> = (props): JSX.Element => {
           <h2>{kix.title}</h2>
           <p className="price">{kix.retailPrice ? "$" + kix.retailPrice : "価格未定"}</p>
           <p className="favorite-btn"><Button
-            color="orange"
+            color={props.flg ? "inherit" : "orange"}
             size="large"
-          >お気に入り登録する</Button></p>
+            onClick={props.onFavorite}
+          >{props.flg ? "解除する" : "お気に入り登録する"}</Button></p>
           <dl>
             <div>
               <dt>発売日</dt>
@@ -64,13 +68,6 @@ const StyledComponent = styled(Component)<Props>`
   article {
     width: 100%;
     padding: 10px;
-    .back-btn, h2 {
-      font-size: 2rem;
-      /* padding: 10px; */
-    }
-    .back-btn {
-      font-weight: bold;
-    }
     .image {
       margin-bottom: 20px;
       img {
@@ -106,17 +103,47 @@ const StyledComponent = styled(Component)<Props>`
 `;
 /* container */
 const KixDetail: React.FC<RouteComponentProps<{styleId: string}>> = (props): JSX.Element => {
-  // hooks use state: kix
+  // hooks useState: kix
   const [kix, setKix] = React.useState<Kix>();
+  // hooks useState: flg
+  const [flg, setFlg] = React.useState<boolean>(false);
+  // handleFavorite
+  const handleFavorite = () => {
+    const item: any = localStorage.getItem("favoriteKix");
+    const ary = JSON.parse(item);
+    if(flg) {
+      const newAry = ary.filter((item: Kix) => {
+        return kix && item.id !== kix.id
+      });
+      localStorage.setItem("favoriteKix", JSON.stringify(newAry));
+    }else {
+      ary.push(kix);
+      localStorage.setItem("favoriteKix", JSON.stringify(ary));
+    }
+    setFlg(!flg);
+  };
   // hooks use effect: API(GET)
   React.useEffect(() => {
+    // custom hooks uselocalStrage
+    useLocalStrage("favoriteKix");
     ajax({method: "GET", url: `/v1/sneakers?limit=10&styleId=${props.match.params.styleId}`})
-    ?.then(res => setKix(res.data.results[0]))
+    ?.then(res => {
+      const result = res.data.results[0];
+      const item: any = localStorage.getItem("favoriteKix");
+      const ary = JSON.parse(item);
+      for(let i = 0; i < ary.length; i++) {
+        if(ary[i].id == result.id) {
+          setFlg(true);
+          break;
+        }
+      }
+      setKix(res.data.results[0]);
+    })
     .catch(err => console.error(err));
   },[]);
   return (
     <Layout>
-      <StyledComponent kix={kix} />
+      <StyledComponent kix={kix} onFavorite={handleFavorite} flg={flg}　/>
     </Layout>
   );
 };
